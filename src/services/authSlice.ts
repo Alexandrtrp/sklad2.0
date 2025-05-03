@@ -1,20 +1,36 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface User {
+  login: string;
+  password: string;
+  name: string;
+}
+
+interface AuthState {
+  users: User[];
+  isAuth: boolean;
+  isAdmin: boolean;
+  nameAuthUser: string;
+}
+
+const initialState: AuthState = {
   users: [
     { login: "rrr", password: "123", name: "Sasha" },
     { login: "admin", password: "cofe", name: "Admin" },
   ],
   isAuth: false,
   isAdmin: false,
-  nameAuthUser: ''
+  nameAuthUser: "",
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    isAuthCheck: (state, action) => {
+    isAuthCheck: (
+      state,
+      action: PayloadAction<{ login: string; password: string }>
+    ) => {
       const authUser = state.users.find(
         (el) =>
           el.login === action.payload.login &&
@@ -22,17 +38,18 @@ export const authSlice = createSlice({
       );
       if (authUser) {
         state.isAuth = true;
-        state.nameAuthUser = authUser.name
+        state.nameAuthUser = authUser.name;
+        if (authUser.name === "Admin") state.isAdmin = true;
       }
-      if (authUser.name === "admin") state.isAdmin = true;
     },
     logout: (state) => {
       state.isAuth = false;
       state.isAdmin = false;
     },
-
-    addNewUser: (state, action) => {
-      console.log(action.payload);
+    addNewUser: (
+      state,
+      action: PayloadAction<{ login: string; password: string; name: string }>
+    ) => {
       state.users.push({
         login: action.payload.login,
         password: action.payload.password,

@@ -3,13 +3,23 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router";
 import './sideBar.css'
 
-export const SideBar = () => {
-  const products = useSelector((state) => state.sklad.products);
-  const [filterInput, setFilterInput] = useState("");
+interface Product {
+  name: string,
+  path: string
+}
+
+interface MainStateSideBar {
+  sklad: {
+    products: Product[]
+  }
+}
+
+export const SideBar: React.FC = () => {
+  const products = useSelector((state: MainStateSideBar) => state.sklad.products);
+  const [filterInput, setFilterInput] = useState<string>("");
   const isFilter = filterInput ? true : false;
-  const renderProducts = isFilter ? products.filter(el=>el.name.toLowerCase().includes(filterInput)) : products
+  const renderProducts = isFilter ? products.filter(el=>el.name.toLowerCase().includes(filterInput.toLocaleLowerCase())) : products
   return (
-    <>
       <div className="productList">
         <div className="productFilter">
         <input
@@ -21,11 +31,12 @@ export const SideBar = () => {
         <button onClick={()=>setFilterInput('')} className="button">Очистить</button>
         </div>
         {renderProducts.map((prod) => (
-          <Link className="productListLink" to={prod.path}>
-            {prod.name}
-          </Link>
+          <ul>
+            <Link key={prod.name} className="productListLink" to={prod.path}>
+              {prod.name}
+            </Link>
+          </ul>
         ))}
       </div>
-    </>
   );
 };

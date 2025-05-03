@@ -1,33 +1,35 @@
 import "./App.css";
-import React from "react";
+import React, { JSX } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Main } from "./Main";
 import { SideBar } from "./components/SideBar/SideBar";
-import { Sklad } from "./components/Sklad";
-import { Auth } from "./components/Authorization/Authorization";
-import { Registration } from "./components/Registration/Registration";
+import { Sklad } from "./pages/basePage/Sklad";
+import { Auth } from "./pages/authorization/Authorization";
+import { Registration } from "./pages/registration/Registration";
 import { useSelector } from "react-redux";
-import { CalculateProduct } from "./components/CalculateProduct";
-import { Profile } from "./components/Profile/Profile";
+import { CalculateProduct } from "./pages/basePage/CalculateProduct";
+import { Profile } from "./pages/profile/Profile";
+import { RootState } from "./services/store";
 
-function App() {
-  const products = useSelector((state) => state.sklad.products);
+function App(): JSX.Element {
+  const products = useSelector((state: RootState) => state.sklad.products);
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Auth />} />
         <Route path="/registration" element={<Registration />} />
-        <Route path="main" element={<Main />}>
+        <Route path="/main" element={<Main />}>
           <Route path="sidebar" element={<SideBar />} />
           {products.map((product) => (
             <Route
+              key={product.id}
               path={product.path}
               element={
                 <CalculateProduct
                   price={product.price}
                   id={product.id}
-                  mnozh={product.mnozh}
+                  multiplier={product.multiplier}
                   name={product.name}
                 />
               }
@@ -35,7 +37,7 @@ function App() {
           ))}
           <Route path="sklad" element={<Sklad />} />
         </Route>
-        <Route path="profile" element={<Profile/>} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>
   );

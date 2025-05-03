@@ -1,15 +1,18 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { Sklad } from "./components/Sklad";
+import { Sklad } from "./pages/basePage/Sklad";
 import { SideBar } from "./components/SideBar/SideBar";
-import { Logout } from "./components/Logout";
+import { Logout } from "./pages/profile/Logout";
 import { useSelector } from "react-redux";
+import { RootState } from "./services/store";
+import { MainPage } from "./pages/mainPage/MainPage";
 
 export const Main = () => {
-  const userName = useSelector((state) => state.auth.nameAuthUser);
+  const userName = useSelector((state: RootState) => state.auth.nameAuthUser);
   return (
     <div className="app">
-      <SideBar />
+      {/* <SideBar /> */}
+      <MainPage/>
       <Outlet />
       <Sklad />
       <div>

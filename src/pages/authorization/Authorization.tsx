@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isAuthCheck } from "../../store/authSlice";
+import { isAuthCheck } from "../../services/authSlice";
 import { useNavigate } from "react-router";
+import { AppDispatch, RootState } from "../../services/store";
 import "./Auth.css";
 
 export const Auth = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const [login, setLogin] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const dispatch = useDispatch<AppDispatch>();
 
-  const isAuth = useSelector((state) => state.auth.isAuth);
+  const isAuth = useSelector((state: RootState) => state.auth.isAuth);
 
   const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ export const Auth = () => {
       : navigate("/", { replace: false });
   }, [isAuth, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
@@ -52,6 +53,7 @@ export const Auth = () => {
           </button>
           <button
             className="formButton"
+            type="button"
             onClick={() => navigate("/registration", { replace: true })}
           >
             Регистрация
