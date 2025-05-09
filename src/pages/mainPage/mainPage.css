@@ -1,0 +1,47 @@
+.productGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.productCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+.productImage {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.editableQuantity {
+  cursor: pointer;
+  color: blue;
+}
+
+.saveButton {
+  margin-top: 8px;
+  padding: 4px 8px;
+}
+
+.quantitySection {
+  margin-bottom: 8px;
+}
+
+.saveButton {
+  margin-top: auto; /* гарантирует, что кнопка внизу */
+  padding: 6px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.saveButton:disabled {
+  background-color: #ccc;
+  cursor: default;
+}
